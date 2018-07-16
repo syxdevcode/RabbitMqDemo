@@ -11,7 +11,7 @@ namespace RabbitMqDemo.Receive
     {
         static void Main(string[] args)
         {
-            Test5();
+            Test4();
             Console.ReadLine();
         }
 
@@ -25,7 +25,7 @@ namespace RabbitMqDemo.Receive
             //    Password = "admin",
             //    Ssl = new SslOption()
             //    {
-            //        CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Receive\server.pfx",
+            //        CertPath = @"E:\git\RabbitMqDemo\server.pfx",
             //        CertPassphrase = "123123",
 
             //        AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
@@ -185,13 +185,24 @@ namespace RabbitMqDemo.Receive
 
         static void Test4()
         {
+            // 实例化连接工厂
+            // 加证书
             ConnectionFactory factory = new ConnectionFactory()
             {
                 UserName = "admin",
                 Password = "admin",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672,
-                TopologyRecoveryEnabled = true
+                Ssl = new SslOption()
+                {
+                    CertPath = @"E:\git\RabbitMqDemo\client.pfx",
+                    CertPassphrase = "123456",
+
+                    AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
+                                                SslPolicyErrors.RemoteCertificateChainErrors,
+                    Enabled = true
+                },
+                //AuthMechanisms = new AuthMechanismFactory[] { new ExternalMechanismFactory() },
+                RequestedHeartbeat = 60,
+                Port = 5673
             };
 
             //  建立连接
@@ -229,28 +240,6 @@ namespace RabbitMqDemo.Receive
                     Console.ReadLine(); // 必须存在
                 }
             }
-        }
-
-        static void Test5()
-        {
-            ConnectionFactory factory = new ConnectionFactory()
-            {
-                UserName = "admin",
-                Password = "admin",
-                AutomaticRecoveryEnabled = true,
-                Port = 5672,
-                TopologyRecoveryEnabled = true
-            };
-
-            //  建立连接
-            using (var connection = factory.CreateConnection(new string[1] { "192.168.0.115" }))
-            {
-                //  创建信道
-                using (var channel = connection.CreateModel())
-                {
-
-                }
-            }
-        }
+        } 
     }
 }

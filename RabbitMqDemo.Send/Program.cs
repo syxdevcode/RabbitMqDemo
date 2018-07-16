@@ -12,7 +12,7 @@ namespace RabbitMqDemo.Send
     {
         static void Main(string[] args)
         {
-            Test5();
+            Test4();
             Console.Read();
         }
 
@@ -29,7 +29,7 @@ namespace RabbitMqDemo.Send
                 AutomaticRecoveryEnabled = true,
                 Ssl = new SslOption()
                 {
-                    CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Send\server.pfx",
+                    CertPath = @"E:\git\RabbitMqDemo\server.pfx",
                     CertPassphrase = "123123",
                     AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
                                                 SslPolicyErrors.RemoteCertificateChainErrors,
@@ -78,7 +78,7 @@ namespace RabbitMqDemo.Send
                 AutomaticRecoveryEnabled = true,
                 Ssl = new SslOption()
                 {
-                    CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Send\server.pfx",
+                    CertPath = @"E:\git\RabbitMqDemo\server.pfx",
                     CertPassphrase = "123123",
                     AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
                                                 SslPolicyErrors.RemoteCertificateChainErrors,
@@ -123,7 +123,7 @@ namespace RabbitMqDemo.Send
                 AutomaticRecoveryEnabled = true,
                 Ssl = new SslOption()
                 {
-                    CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Send\server.pfx",
+                    CertPath = @"E:\git\RabbitMqDemo\server.pfx",
                     CertPassphrase = "123123",
                     AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
                                                 SslPolicyErrors.RemoteCertificateChainErrors,
@@ -170,7 +170,7 @@ namespace RabbitMqDemo.Send
                 AutomaticRecoveryEnabled = true,
                 Ssl = new SslOption()
                 {
-                    CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Send\server.pfx",
+                    CertPath = @"E:\git\RabbitMqDemo\server.pfx",
                     CertPassphrase = "123123",
                     AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
                                                 SslPolicyErrors.RemoteCertificateChainErrors,
@@ -206,35 +206,7 @@ namespace RabbitMqDemo.Send
                     }
                 }
             }
-        }
-
-        static void Test5()
-        {
-            ConnectionFactory factory = new ConnectionFactory()
-            {
-                UserName = "admin",
-                Password = "admin",
-                AutomaticRecoveryEnabled = true,
-                Ssl = new SslOption()
-                {
-                    CertPath = @"E:\git\RabbitMqDemo\RabbitMqDemo.Send\server.pfx",
-                    CertPassphrase = "123123",
-                    AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
-                                                SslPolicyErrors.RemoteCertificateChainErrors,
-                    Enabled = true
-                },
-                //AuthMechanisms = new AuthMechanismFactory[] { new ExternalMechanismFactory() },
-                RequestedHeartbeat = 60,
-                Port = 5673,
-                TopologyRecoveryEnabled = true
-            };
-
-            // 创建connection 
-            using (var connection = factory.CreateConnection(new string[1] { "192.168.0.115" }))
-            {
-                 
-            }
-        }
+        } 
     }
 }
 
