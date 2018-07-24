@@ -11,8 +11,18 @@ namespace EasyNetQDemo.Publish
     {
         static void Main(string[] args)
         {
-            TestSSL();
+            TestRPC();
             Console.ReadKey();
+        }
+
+        static void TestRPC()
+        {
+            var rpcClient = new RpcClient();
+
+            Console.WriteLine(" [x] Requesting fib(30)");
+            var response = rpcClient.Call("30");
+
+            Console.WriteLine(" [.] Got '{0}'", response);
         }
 
         static void TestConnection()
@@ -60,6 +70,34 @@ namespace EasyNetQDemo.Publish
             bus.Publish(message, x => x.WithTopic(message.MessageRouter));
 
             Console.WriteLine("发送成功");
+        }
+
+        static void TestSend()
+        {
+            var connection = new ConnectionConfiguration();
+
+            connection.Port = 5673;
+            connection.UserName = "admin";
+            connection.Password = "admin";
+            connection.Product = "SSLTest";
+
+            var host1 = new HostConfiguration();
+            host1.Host = "192.168.0.177";
+            host1.Port = 5673;
+            host1.Ssl.Enabled = true;
+            host1.Ssl.ServerName = "www.shiyx.top";
+            host1.Ssl.CertPath = @"E:\git\RabbitMqDemo\server.pfx";
+            host1.Ssl.CertPassphrase = "123123";
+            host1.Ssl.AcceptablePolicyErrors = SslPolicyErrors.RemoteCertificateNameMismatch |
+                                                SslPolicyErrors.RemoteCertificateChainErrors;
+            
+            connection.Hosts = new List<HostConfiguration> { host1 };
+
+            connection.Validate();
+
+            var bus = RabbitHutch.CreateBus(connection, services => services.Register<ILogProvider>(ConsoleLogProvider.Instance));
+
+            bus.Send("my.queue", new TextMessage { MessageID="2", MessageTitle="test", MessageBody = "Hello Widgets!" });
         }
     }
 }
